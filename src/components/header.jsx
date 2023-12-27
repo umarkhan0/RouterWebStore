@@ -24,6 +24,7 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { NavLink } from 'react-router-dom';
 const drawerWidth = 240;
 
 function DrawerAppBar(props) {
@@ -139,6 +140,7 @@ function DrawerAppBar(props) {
   return (
     <Box sx={{ display: 'flex' , justifyContent: "space-between" }}>
       <CssBaseline />
+      {/* <MyDialogAuthComponent /> */}
       <AppBar component="nav" style={
         {
           backgroundColor: "#001F3F",
@@ -253,6 +255,7 @@ function DrawerAppBar(props) {
 
 
             </IconButton>
+            <NavLink to={"/login"}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -260,9 +263,9 @@ function DrawerAppBar(props) {
               aria-haspopup="true"
             // color="#fff"
             >
-              <AccountCircle style={{ fill: '#fff', marginRight: "12px" }} />
+             <AccountCircle style={{ fill: '#fff' }} />
             </IconButton>
-
+</NavLink>
           </Box>
         </Toolbar>
       </AppBar>

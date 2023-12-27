@@ -6,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Badge } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-
+import { NavLink , useNavigate } from 'react-router-dom';
 export default function ScrollableBottomNavigation() {
   const [value, setValue] = useState(0);
   const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
@@ -26,7 +26,7 @@ export default function ScrollableBottomNavigation() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [prevScrollPos]);
-
+const navigate = useNavigate()
   return (
     <>
       <Box
@@ -60,7 +60,10 @@ export default function ScrollableBottomNavigation() {
               </Badge>
             }
           />
-          <BottomNavigationAction icon={<AccountCircleIcon />} />
+           
+          <BottomNavigationAction onClick={() => navigate("/login")} icon={<AccountCircleIcon />} />
+        {/* </NavLink> */}
+
         </BottomNavigation>
       </Box>
     </>
