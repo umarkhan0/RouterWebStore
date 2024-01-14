@@ -143,7 +143,7 @@ function DrawerAppBar(props) {
       {/* <MyDialogAuthComponent /> */}
       <AppBar component="nav" style={
         {
-          backgroundColor: "#001F3F",
+          backgroundColor: "#008080",
           height: "80px",
           position: "relative", 
         }

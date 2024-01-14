@@ -1,6 +1,11 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
+import DrawerAppBar from '../components/header';
 import Button from '@mui/material/Button';
+import Footer from '../components/footer';
+import { base_URL } from '../constant/const';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -14,57 +19,76 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
 import Logo from "../images/logo.png";
+import axios from 'axios';
+
 const style = {
   "& label.Mui-focused": {
     color: "#001f3f"
   },
   "& .MuiOutlinedInput-root": {
     "&.Mui-focused fieldset": {
-      borderColor: "#001f3f"
+      borderColor: "#008080"
     }
   }
-}   
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
-
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+const navigate = useNavigate()
+  const [nameerror, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const formData = {
+      name: data.get('name'),
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+console.log(formData.email);
+    axios.post(`${base_URL}/api/signup/`, formData)
+      .then((res) => {
+        setEmailError("");
+        localStorage.setItem("email" , formData.email);
+        navigate("/otp")
+        
+      })
+      .catch(error => {
+let {message} = error.response.data;
+        let select = error.response?.data?.message?.split(' ')[0];
+        select == '"name"' ? setNameError(error.response.data.message) : setNameError("")
+        select == '"password"' ? setPasswordError(error.response.data.message) : setPasswordError("");
+        if(error.response.data.message == "Email is already registered."){
+          setEmailError("Already use Email");
+        }else{
+          setEmailError("")
+        select == '"email"' ? setEmailError(error.response.data.message) : setEmailError("")
+        }
+      });
+  }
+
+
+  const isValidEmail = (email) => {
+    // Add your email validation logic here
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
   return (
+    <>
+    <DrawerAppBar />
     <ThemeProvider theme={defaultTheme}>
-            <Container component="main" maxWidth="xs" className=' shadow-md p-3'>
+      <Container sx={{marginY : "18px"}} component="main" maxWidth="xs" className=' shadow-md p-3'>
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
-         
-            <img src={Logo} className=' h-[46px]' />
-        
+          <img src={Logo} className=' h-[60px]' />
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
@@ -72,57 +96,62 @@ export default function SignUp() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                sx={style}
+                  sx={style}
                   autoComplete="given-name"
-                  name="firstName"
+                  name="name"
                   required
                   fullWidth
-                  id="firstName"
+                  id="name"
                   label="First Name"
                   autoFocus
                 />
+                  <p className="text-red-500 text-xs mt-1">{nameerror}</p>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                sx={style}
-
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
+                <div className="relative">
+                  <TextField
+                    sx={style}
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="family-name"
+                  />
+                </div>
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                sx={style}
-
+                  sx={style}
                   required
                   fullWidth
                   id="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                 
                 />
+                  <p className="text-red-500 text-xs mt-1">{emailError}</p>
+
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
-                sx={style}
-
+                  sx={style}
                   fullWidth
                   name="password"
                   label="Password"
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                 
                 />
+                  <p className="text-red-500 text-xs mt-1">{passwordError}</p>
+
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label="Remember me"
                 />
               </Grid>
             </Grid>
@@ -130,21 +159,29 @@ export default function SignUp() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2  , backgroundColor: "#001f3f" }}
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: "#008080",
+                "&:hover, &:active": {
+                  backgroundColor: "#008080",
+                }
+              }}
             >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <NavLink  to={"/login"} className=" hover:underline">
+                <NavLink to={"/login"} className=" hover:underline text-[13px]">
                   Already have an account? Sign in
                 </NavLink>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
+    <Footer />
+    </>
   );
 }

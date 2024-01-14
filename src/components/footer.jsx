@@ -4,14 +4,14 @@ const Footer = () => {
 
 
 
-            <footer class=" bg-[#001f3f] dark:bg-gray-900 ">
+            <footer class=" bg-[#008080] dark:bg-gray-900 ">
                 <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                     <div class="md:flex md:justify-around">
 
 
                         <div>
                             <h2 class="mb-6 text-sm font-semibold text-[#fff] uppercase dark:text-white">ABOUT US</h2>
-                            <ul class="text-gray-500 dark:text-gray-400 font-medium">
+                            <ul class=" text-white dark:text-gray-400 font-medium">
                                 <li class="mb-4">
                                     <a href="https://flowbite.com/" class="hover:underline">Home</a>
                                 </li>
@@ -25,7 +25,7 @@ const Footer = () => {
                         </div>
                         <div>
                             <h2 class="mb-6 text-sm font-semibold text-[#fff] uppercase dark:text-white">INFORMATION</h2>
-                            <ul class="text-gray-500 dark:text-gray-400 font-medium">
+                            <ul class="text-white dark:text-gray-400 font-medium">
                                 <li class="mb-4 md:w-[220px]">
                                     <p className="hover:underline">Phone : 021-32620546, 021-32631234 (11am to 7pm)
                                         Whatsapp : 0323-2290714</p>
