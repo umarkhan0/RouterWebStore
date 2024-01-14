@@ -1,7 +1,5 @@
 import express from "express";
 const app = express();
-import swaggerJSDoc from "swagger-jsdoc";
-
 import router from "./routes/index.js";
 import chalk from "chalk";
 import cors from "cors"
