@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import userContext from "./userCotext";
 import axios from "axios";
-
-let baseURL = "http://localhost:3000";
-
+import { base_URL } from "../constant/const";
+import AppRouter from "../config/router";
 const UserContextProvider = ({ children }) => {
   const [profile, setProfileData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("Sign");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (token) {
-          const response = await axios.get(`${baseURL}/api/profileGet`, {
+          const response = await axios.get(`${base_URL}/api/profileGet`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -22,17 +22,22 @@ const UserContextProvider = ({ children }) => {
           setProfileData(response.data);
         }
       } catch (error) {
-        // Handle errors here
         console.error("Error fetching profile:", error);
-        // You might want to handle or log the error appropriately
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchData();
   }, [token]);
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <userContext.Provider value={{ profile }}>
-      {children}
+      <AppRouter />
     </userContext.Provider>
   );
 };

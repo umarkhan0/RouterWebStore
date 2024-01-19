@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -25,9 +26,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { NavLink } from 'react-router-dom';
+import userContext from '../context/userCotext';
 const drawerWidth = 240;
 
 function DrawerAppBar(props) {
+  const {profile} = useContext(userContext);
+  console.log(profile);
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -217,7 +221,7 @@ function DrawerAppBar(props) {
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
 
 
-
+        <NavLink to={"/profile"}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -236,7 +240,7 @@ function DrawerAppBar(props) {
 
 
             </IconButton>
-
+</NavLink>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -255,7 +259,18 @@ function DrawerAppBar(props) {
 
 
             </IconButton>
-            <NavLink to={"/login"}>
+            {profile == null ?  <NavLink to={"/login"}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="primary-search-account-menu"
+              aria-haspopup="true"
+            // color="#fff"
+            >
+             <AccountCircle style={{ fill: '#fff' }} />
+            </IconButton>
+</NavLink> :
+<NavLink to={"/profile"}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -266,6 +281,7 @@ function DrawerAppBar(props) {
              <AccountCircle style={{ fill: '#fff' }} />
             </IconButton>
 </NavLink>
+}
           </Box>
         </Toolbar>
       </AppBar>

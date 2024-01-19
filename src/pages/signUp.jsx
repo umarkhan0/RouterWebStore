@@ -55,7 +55,7 @@ console.log(formData.email);
         
       })
       .catch(error => {
-let {message} = error.response.data;
+// let {message} = error.response.data;
         let select = error.response?.data?.message?.split(' ')[0];
         select == '"name"' ? setNameError(error.response.data.message) : setNameError("")
         select == '"password"' ? setPasswordError(error.response.data.message) : setPasswordError("");

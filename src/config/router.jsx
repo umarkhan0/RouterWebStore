@@ -8,21 +8,20 @@ import OTPverify from '../pages/otpVerify.jsx';
 import Login from '../pages/login.jsx';
 import userContext from '../context/userCotext.js';
 import SignUp from '../pages/signUp.jsx';
+import YourProfilePage from '../pages/yourProfilePage.jsx';
 import axios from 'axios';
-const AppRouter: React.FC = () => {
+const AppRouter = () => {
 const {profile} = React.useContext(userContext);
 console.log(profile);
     return (
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<ShowChasePage />} />
-                <Route path='/signUp' element={!profile?.user?.email ? <SignUp /> : <Navigate to="/" />} />
-                <Route path='/otp' element={!profile?.user?.email ? <OTPverify /> : <Navigate to="/" />} />
-
-                <Route path='/login' element={!profile?.user?.email ? <Login /> : <Navigate to="/" />} />
+                <Route path='/signUp' element={!profile ? <SignUp /> : <Navigate to="/" />} />
+                <Route path='/otp' element={!profile ? <OTPverify /> : <Navigate to="/" />} />
+                <Route path='/login' element={!profile ? <Login /> :<Navigate to="/" />} />
                 <Route path='/veiw' element={<View />} />
-
-
+                <Route path='/profile' element={profile ? <YourProfilePage /> : <Navigate to="/" /> } />
             </Routes>
         </BrowserRouter>
     );

@@ -24,7 +24,9 @@ router.post("/", async (req, res) => {
                 const compare = await bcrypt.compare(password, user.password)
                 if (compare) {
 
-                    const token = Jwt.sign({ _id: user._id, password: user.password }, process.env.JWT_SECRET);
+                    const token = Jwt.sign({ email: user.email, password: user.password }, process.env.JWT_SECRET);
+            // const token = Jwt.sign({ email: user }, process.env.JWT_SECRET);
+
                     delete user.password;
                     return res.status(200).send({ status_code: 200, messege: "sucess", token, user: user })
                 } else {

@@ -18,7 +18,6 @@ cloudinary.v2.config({
      res.status(200).json({
         success: true,
         message:"Uploaded!",
-        data: result
       })
       if(err) {
         console.log(err);

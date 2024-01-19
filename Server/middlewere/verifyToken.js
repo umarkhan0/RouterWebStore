@@ -5,7 +5,11 @@ const verifyToken = (request , response , next) => {
     const token = authorization?.split(" ")[1];
     jwt.verify(token , process.env.JWT_SECRET, function(err , decoded){
         if(err){
-     return response.status(400).send({ err});
+     return response.status(400).send(  {
+        "name": "JsonWebTokenError",
+        "message": "invalid token"
+    
+});
         }else{
             return next();
         }

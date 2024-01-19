@@ -1,12 +1,14 @@
 import DrawerAppBar from "../components/header.jsx";
 import React from "react"
 import SimpleBottomNavigation from "../components/bottomNav.jsx";
-import { useRef, useState } from "react";
+import { useRef, useState , useContext } from "react";
 import SwipeableTextMobileStepper from "../components/carasol.js";
 import ActionAreaCard from "../components/card.js";
 import Footer from "../components/footer.jsx";
+import userContext from "../context/userCotext.js";
 import { useNavigate } from "react-router-dom";
 const ShowChasePage: React.FC = () => {
+
     const navigate =  useNavigate()
     const data =
         [
