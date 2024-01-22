@@ -6,7 +6,7 @@ import Joi from 'joi';
 import Temprary from "../models/temprayNotSing.js"
 import dotenv from 'dotenv';
 import OTP from '../models/otp.js';
-import User from '../models/user.js';
+import User from '../models/SingUp.js';
 
 dotenv.config();
 

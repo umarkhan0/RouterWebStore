@@ -3,7 +3,7 @@ import express from 'express';
 import upload from "../middlewere/multer.js";
 import verifyToken from '../middlewere/verifyToken.js';
 import { uploadToCloudinary } from '../Utills/uploder.js';
-import User from '../models/user.js';
+import User from '../models/SingUp.js';
 import jwt from "jsonwebtoken";
 import Joi from 'joi';
 import bcrypt from "bcrypt";
@@ -13,7 +13,7 @@ router.put('/', verifyToken, upload.single('image'), async (req, res) => {
   const { authorization } = req.headers;
   const { name, oldpassword, newPassword } = req.body;
   const token = authorization?.split(" ")[1];
-  
+  // console.log(req);
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -21,9 +21,15 @@ router.put('/', verifyToken, upload.single('image'), async (req, res) => {
 
     if (oldpassword) {
       const passwordMatch = await bcrypt.compare(oldpassword, user.password);
-console.log(passwordMatch);
       if (passwordMatch) {
-        user.password = newPassword;
+        if (newPassword.length > 6) {
+          user.password = await bcrypt.hash(newPassword, 10);
+          await user.save();
+        } else {
+          return res.status(401).json({
+            message: "At least 6 characters required",
+          });
+        }
       } else {
         return res.status(401).json({
           message: "Old password does not match",
@@ -35,9 +41,14 @@ console.log(passwordMatch);
     if (imageUrl) {
       user.profileImage = imageUrl;
     }
-
-    if (name) {
+    if (name ) {
+      if(name.length > 6){
       user.name = name;
+      }else{
+        return res.status(401).json({
+          message: "Name least 6 characters required",
+        });
+      }
     }
 
     await user.save();
@@ -47,12 +58,11 @@ console.log(passwordMatch);
       Profile: user,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: "Unauthorized",
     });
   }
 });
-
-
 
 export default router;

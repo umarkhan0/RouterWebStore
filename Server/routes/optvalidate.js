@@ -1,6 +1,6 @@
 import express from "express";
 import OTP from "../models/otp.js";
-import User from "../models/user.js";
+import User from "../models/SingUp.js";
 import Jwt from 'jsonwebtoken';
 import Joi from "joi";
 import Temprary from "../models/temprayNotSing.js";

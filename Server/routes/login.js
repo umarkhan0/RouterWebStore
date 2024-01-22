@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 import Joi from "joi";
 import Jwt from "jsonwebtoken";
-import User from "../models/user.js";
+import User from "../models/SingUp.js";
 import bcrypt from "bcrypt"
 const userSchema = Joi.object({
     email: Joi.string().email({ tlds: { allow: false } }).required(),

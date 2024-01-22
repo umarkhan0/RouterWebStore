@@ -1,6 +1,6 @@
 import express from "express";
 import verifyToken from "../middlewere/verifyToken.js";
-import User from "../models/user.js";
+import User from "../models/SingUp.js";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
